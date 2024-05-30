@@ -1,4 +1,5 @@
 import React from 'react';
+import Dropdown from './Dropdown';
 
 class CurrencyConverter extends React.Component {
     constructor(props) {
@@ -56,7 +57,7 @@ class CurrencyConverter extends React.Component {
           </div>
           <div className="row text-center">
             <div className="col-12">
-              <span className="mr-1">USD</span> 
+              <span className="mr-1"><Dropdown/></span>
               <input value={usd} onChange={this.handleUsdChange} type="number" />
               <span className="mx-3">=</span>
               <input value={euro} onChange={this.handleEuroChange} type="number" />
