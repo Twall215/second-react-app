@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Dropdown from './Dropdown';
 
- const Base_URL = 'https://api.frankfurter.app/latest'
+ const Base_URL = 'https://api.frankfurter.app/latest?from=USD'
  
 
 
@@ -19,7 +19,7 @@ function CurrencyConverter() {
       setFromCurrency(data.base)
       setToCurrency(firstCurrency)
     })
-  })
+  }, [])
     
 
     return (
@@ -29,18 +29,17 @@ function CurrencyConverter() {
           <h2 className="mb-2">Currency Converter</h2>
         </div>
         <div className="row text-center">
-          <div><Dropdown
+          <Dropdown
             currencyOptions = {currencyOptions}
             selectedCurrency={fromCurrency}
-            onChangeCurrency={e => setFromCurrency(e.target.value)} //<- supposed to take the target event(currency selection) and change it to that event
-            /></div>
+            onChangeCurrency={e => setFromCurrency(e.target.value)} //<- supposed to take the target event(currency selection) and change it to that option
+            />
           <div className="equals">=</div>
-          <div ><Dropdown
+          <Dropdown
           currencyOptions = {currencyOptions}
           selectedCurrency={toCurrency}
-          onChangeCurrency={e => setToCurrency(e.target.value)} //<- supposed to take the target event(currency selection) and change it to that event
-          />
-          </div>
+          onChangeCurrency={e => setToCurrency(e.target.value)} //<- supposed to take the target event(currency selection) and change it to that option
+            />
         </div>
       </div>
     )
