@@ -1,25 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import Dropdown from './Dropdown';
 
- const Base_URL = 'https://api.frankfurter.app/latest?from=USD'
+ const Base_URL = 'https://api.frankfurter.app/latest?from='
  
 
 
 function CurrencyConverter() {
   const [currencyOptions, setCurrencyOptions] = useState([])
-  const [fromCurrency, setFromCurrency] = useState()
-  const [toCurrency, setToCurrency] = useState()
+  const [fromCurrency, setFromCurrency] = useState("USD")
+  const [toCurrency, setToCurrency] = useState("AUD")
+  const [exchangeRate, setExchangeRate] = useState()
+  const [amount, setAmount] = useState(1)
+  const[amountInFromCurrency, setAmountInFromCurrency] = useState(true)
+
+  let toAmount, fromAmount
+  if(amountInFromCurrency){
+    fromAmount = amount
+    toAmount = amount*exchangeRate
+  } else{
+    toAmount = amount
+    fromAmount = amount/exchangeRate
+  }
+
+  //console.log(exchangeRate)
   
   useEffect(() => {
-    fetch(Base_URL)
+    fetch(Base_URL+fromCurrency)
     .then(res => res.json())
     .then(data => {
-      const firstCurrency = Object.keys(data.rates)[0]
       setCurrencyOptions([data.base, ...Object.keys(data.rates)])
-      setFromCurrency(data.base)
-      setToCurrency(firstCurrency)
+      setExchangeRate(data.rates)
     })
-  }, [])
+  }, [fromCurrency])
     
 
     return (
@@ -34,7 +46,7 @@ function CurrencyConverter() {
             selectedCurrency={fromCurrency}
             onChangeCurrency={e => setFromCurrency(e.target.value)} //<- supposed to take the target event(currency selection) and change it to that option
             />
-          <div className="equals">=</div>
+          <div className="equals">{amount}={amount*exchangeRate[toCurrency]}</div>
           <Dropdown
           currencyOptions = {currencyOptions}
           selectedCurrency={toCurrency}
